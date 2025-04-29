@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+* {
+  font-family: 'Montserrat';
+}
+
+:root {
+  --primary: rgba(211, 47, 47, 1);
+  --primary-9: rgba(211, 47, 47, .9);
+  --primary-8: rgba(211, 47, 47, .8);
+  --primary-7: rgba(211, 47, 47, .7);
+  --primary-6: rgba(211, 47, 47, .6);
+  --primary-5: rgba(211, 47, 47, .5);
+  --primary-4: rgba(211, 47, 47, .4);
+  --primary-3: rgba(211, 47, 47, .3);
+  --primary-2: rgba(211, 47, 47, .2);
+  --primary-1: rgba(211, 47, 47, .1);
+
+  --secondary: rgba(25, 118, 210, 1);
+  --secondary-9: rgba(25, 118, 210, .9);
+  --secondary-8: rgba(25, 118, 210, .8);
+  --secondary-7: rgba(25, 118, 210, .7);
+  --secondary-6: rgba(25, 118, 210, .6);
+  --secondary-5: rgba(25, 118, 210, .5);
+  --secondary-4: rgba(25, 118, 210, .4);
+  --secondary-3: rgba(25, 118, 210, .3);
+  --secondary-2: rgba(25, 118, 210, .2);
+  --secondary-1: rgba(25, 118, 210, .1);
+
+  --broken-white: rgb(247, 250, 252);
+
+  --gradient: linear-gradient(110deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--broken-white);
+}
+
+.container {
+  width: 80%;
+  max-width: 1400px;
+}
+
+.gradientText {
+  background-image: var(--gradient);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.gradientButton {
+  all: unset;
+  margin-top: 1rem;
+  padding: 1rem 2rem;
+  background: var(--gradient);
+  border-radius: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+.clamp-h1 {font-size: clamp(1.75rem, 1.0536rem + 2.4762vw, 3.375rem);}
+.clamp-h2 {font-size: clamp(1.5625rem, 0.9464rem + 2.1905vw, 3rem);}
+.clamp-h3 {font-size: clamp(1.375rem, 0.8929rem + 1.7143vw, 2.5rem);}
+.clamp-h4 {font-size: clamp(1.1875rem, 0.7857rem + 1.4286vw, 2.125rem);}
+.clamp-h5 {font-size: clamp(1rem, 0.7321rem + 0.9524vw, 1.625rem);}
+.clamp-p{font-size: clamp(0.8125rem, 0.6786rem + 0.4762vw, 1.125rem);}
