@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from 'next/navigation'
-import { Button, Layout, Menu } from "antd";
-import { useState } from "react";
+import { Button, Layout, Menu, Spin } from "antd";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import {
   Person,
@@ -23,7 +23,21 @@ const { Sider, Header, Content } = Layout;
 
 function AdminLayout({ children }) {
   const [collapsed, setCollapsed] = useState(typeof window !== 'undefined' ? (window.innerWidth > 768 ? false : true) : true);
+  const [loading, setLoading] = useState(false);
   const navigate = useRouter();
+
+  useEffect(() => {
+    const handleStart = () => setLoading(true);
+    const handleComplete = () => setLoading(false);
+
+    window.addEventListener('beforeunload', handleStart);
+    window.addEventListener('load', handleComplete);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleStart);
+      window.removeEventListener('load', handleComplete);
+    };
+  }, []);
 
   const adminItems = [
     {
@@ -421,7 +435,13 @@ function AdminLayout({ children }) {
                 minHeight: "100vh"
               }}
             >
-              {children}
+              {loading ? (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px' }}>
+                  <Spin size="large" />
+                </div>
+              ) : (
+                children
+              )}
             </Content>
           </Layout>
         </Layout>

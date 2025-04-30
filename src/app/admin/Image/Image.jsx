@@ -1,6 +1,7 @@
+"use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button, message, Popconfirm } from 'antd';
-import { token } from "../../layouts/GetUserData";
+import { token } from "../GetUserData";
 import './image.css';
 
 export const Image = ({ onClose, onImagesSelected, images, maxImages }) => {
@@ -11,7 +12,7 @@ export const Image = ({ onClose, onImagesSelected, images, maxImages }) => {
   const [buttonLabel, setButtonLabel] = useState("Yükle");
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedCount, setSelectedCount] = useState(0);
-  const apiURL = import.meta.env.VITE_API_BASE_URL;
+  const apiURL = process.env.NEXT_PUBLIC_API_URL;
   const [dataSource, setDataSoruce] = useState([]);
 
   const fetchData = useCallback(async () => {

@@ -1,4 +1,7 @@
 import "./globals.css";
+import tr_TR from "antd/lib/locale/tr_TR";
+import { ConfigProvider } from "antd";
+import LoadingProvider from "./loading";
 
 export const metadata = {
   title: "Bilinti Haber",
@@ -10,7 +13,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {children}
+        <ConfigProvider locale={tr_TR}>
+          <LoadingProvider/>
+          {children}
+        </ConfigProvider>
       </body>
     </html>
   );
