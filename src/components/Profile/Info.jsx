@@ -30,7 +30,9 @@ function Info({ member }) {
 
     const handleLogout = () => {
         try {
-            localStorage.removeItem("member");
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem("member");
+            }
             messageApi.success("Başarıyla çıkış yapıldı!");
             setTimeout(() => {
                 location.reload();
@@ -58,7 +60,9 @@ function Info({ member }) {
             else {
                 messageApi.error(data.message || "Bir hata oluştu!");
                 if(data.message == "Kullanıcı bulunamadı!"){
-                    localStorage.removeItem("member");
+                    if (typeof window !== 'undefined') {
+                        localStorage.removeItem("member");
+                    }
                     setTimeout(() => {
                         location.reload();
                     }, 1000);

@@ -6,6 +6,11 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import moment from "moment";
 import AdminLayout from "../../page";
+import 'react-quill-new/dist/quill.snow.css';
+
+import dynamic from 'next/dynamic';
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+
 
 function ColumnDetail({params}) {
     const [messageApi, contextHolder] = message.useMessage();
@@ -35,6 +40,7 @@ function ColumnDetail({params}) {
             if (response.ok) {
                 setData(data.data);
                 form.setFieldValue("columnTitle", data.data.columnTitle);
+                form.setFieldValue("columnLink", data.data.columnLink);
                 form.setFieldValue("columnContent", data.data.columnContent);
             }
             else { messageApi.error(data.message); }
@@ -134,12 +140,24 @@ function ColumnDetail({params}) {
 
 
                     <Form.Item
+                        label="Link"
+                        name="columnLink"
+                        rules={[{ required: true, message: 'Lütfen bu alanı doldurun.' }]}
+                        style={{ width: "100%" }}
+                    >
+                        <Input />
+                    </Form.Item>
+
+
+                    <Form.Item
                         label="İçerik"
                         name="columnContent"
                         rules={[{ required: true, message: 'Lütfen bu alanı doldurun.' }]}
                         style={{ width: "100%" }}
                     >
-                        <Input.TextArea />
+                        <ReactQuill style={{
+                            backgroundColor: "white"
+                        }} />
                     </Form.Item>
 
 

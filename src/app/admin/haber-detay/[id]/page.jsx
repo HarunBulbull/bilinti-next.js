@@ -4,11 +4,14 @@ import { LoadingOutlined } from '@ant-design/icons';
 import 'react-quill-new/dist/quill.snow.css';
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import ReactQuill from 'react-quill-new';
+import dynamic from 'next/dynamic';
 import { token, user } from "../../GetUserData";
-import { Image } from "../../Image/Image";
 import AdminLayout from "../../page";
 import moment from "moment/moment";
+
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+const Image = dynamic(() => import('../../Image/Image'), { ssr: false });
+
 
 function Page({ params }) {
     const [messageApi, contextHolder] = message.useMessage();
@@ -27,12 +30,7 @@ function Page({ params }) {
         }
     }, [user]);
 
-    useEffect(() => {
-        const body = document.body;
-        if (openImage) { body.style.overflow = 'hidden'; }
-        else { body.style.overflow = 'auto'; }
-        return () => { body.style.overflow = 'auto'; };
-    }, [openImage]);
+
 
     const handleImageSelection = (images) => {
         setImages(images);

@@ -1,10 +1,17 @@
 "use client";
 import Info from '@/components/Profile/Info.jsx';
 import Login from '@/components/Profile/Login.jsx';
-
+import { useState, useEffect } from 'react';
 
 function ClientPage() {
-    const member = localStorage.getItem("member") ? localStorage.getItem("member") : null;
+    const [member, setMember] = useState(null);
+
+    useEffect(() => {
+        const storedMember = window?.localStorage?.getItem("member");
+        if (storedMember) {
+            setMember(storedMember);
+        }
+    }, []);
 
     return member ?
         <Info member={member} />

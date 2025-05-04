@@ -5,11 +5,11 @@ import { token, user } from "../GetUserData";
 import { useRouter } from "next/navigation";
 import 'react-quill-new/dist/quill.snow.css';
 import { useEffect, useState } from "react";
-import ReactQuill from 'react-quill-new';
-import {Image} from "../Image/Image";
+import dynamic from 'next/dynamic';
 import AdminLayout from "../page";
 
-
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+const Image = dynamic(() => import('../Image/Image'), { ssr: false });
 
 function AddTeam() {
     const [messageApi, contextHolder] = message.useMessage();
@@ -26,13 +26,6 @@ function AddTeam() {
         }
     }, [user]);
 
-    useEffect(() => {
-        const body = document.body;
-        if (openImage) { body.style.overflow = 'hidden'; }
-        else { body.style.overflow = 'auto'; }
-        return () => { body.style.overflow = 'auto'; };
-    }, [openImage]);
-
     const handleImageSelection = (images) => {
         setImages(images);
         setOpenImage(false)
@@ -47,7 +40,7 @@ function AddTeam() {
                     "Content-Type": "application/json",
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({...values, image: images}),
+                body: JSON.stringify({ ...values, image: images }),
             });
             const data = await response.json();
             if (response.ok) {
@@ -65,75 +58,87 @@ function AddTeam() {
 
     return (
         <AdminLayout>
-        <Spin spinning={loading} tip="Yükleniyor..." indicator={<LoadingOutlined spin />} size="large">
-            {contextHolder}
-            {openImage && <Image onClose={() => setOpenImage(false)} onImagesSelected={handleImageSelection} images={images} maxImages={1} />}
-            
-            <Form
-                form={form}
-                name="basic"
-                layout="vertical"
-                autoComplete="off"
-                onFinish={onFinish}
-            >
-                <div className="flex flex-col sm:gap-4">
+            <Spin spinning={loading} tip="Yükleniyor..." indicator={<LoadingOutlined spin />} size="large">
+                {contextHolder}
+                {openImage && <Image onClose={() => setOpenImage(false)} onImagesSelected={handleImageSelection} images={images} maxImages={1} />}
 
-                    <div className="flex sm:flex-row flex-col gap-4">
-                        <Form.Item
-                            label="Ad Soyad"
-                            name="fullName"
-                            rules={[{ required: true, message: 'Lütfen bu alanı doldurun.' }]}
-                            style={{ width: "100%" }}
-                        >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item
-                            label="İş Tanımı"
-                            name="job"
-                            rules={[{ required: true, message: 'Lütfen bu alanı doldurun.' }]}
-                            style={{ width: "100%" }}
-                        >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item
-                            label="Sıra"
-                            name="order"
-                            rules={[{ required: true, message: 'Lütfen bu alanı doldurun.' }]}
-                            style={{ width: "100%" }}
-                        >
-                            <InputNumber style={{ width: "100%" }}/>
-                        </Form.Item>
-                    </div>
-                    <Form.Item
-                        label="Biyografi"
-                        name="biography"
-                        rules={[{ required: true, message: 'Lütfen bu alanı doldurun.' }]}
-                        style={{ width: "100%" }}
-                    >
-                        <ReactQuill style={{
-                            backgroundColor: "white"
-                        }} />
-                    </Form.Item>
+                <Form
+                    form={form}
+                    name="basic"
+                    layout="vertical"
+                    autoComplete="off"
+                    onFinish={onFinish}
+                >
+                    <div className="flex flex-col sm:gap-4">
 
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="flex flex-col gap-4 w-full">
-                            <Button className="w-full" type="primary" onClick={() => setOpenImage(true)} style={{ width: "100%" }}>Resim Seç</Button>
-                            {images != "" ?
-                                <div style={{ width: "100%", display: "grid", gridTemplateColumns: "1fr", gap: "1rem" }}>
-                                    {images.split("\n").map((img, key) => (
-                                        img && <img src={apiURL + '/api/image/' + img} key={key} style={{ width: "100%" }} />
-                                    ))}
-                                </div>
-                                :
-                                <h4>Resim seçilmemiş.</h4>
-                            }
+                        <div className="flex sm:flex-row flex-col gap-4">
+                            <Form.Item
+                                label="Ad Soyad"
+                                name="fullName"
+                                rules={[{ required: true, message: 'Lütfen bu alanı doldurun.' }]}
+                                style={{ width: "100%" }}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <Form.Item
+                                label="İş Tanımı"
+                                name="job"
+                                rules={[{ required: true, message: 'Lütfen bu alanı doldurun.' }]}
+                                style={{ width: "100%" }}
+                            >
+                                <Input />
+                            </Form.Item>
                         </div>
-                        <Button className="w-full" type="primary" htmlType="submit" style={{ width: "100%" }}>Kaydet</Button>
+
+                        <div className="flex sm:flex-row flex-col gap-4">
+                            <Form.Item
+                                label="Link"
+                                name="link"
+                                rules={[{ required: true, message: 'Lütfen bu alanı doldurun.' }]}
+                                style={{ width: "100%" }}
+                            >
+                                                                <Input />
+
+                            </Form.Item>
+                            <Form.Item
+                                label="Sıra"
+                                name="order"
+                                rules={[{ required: true, message: 'Lütfen bu alanı doldurun.' }]}
+                                style={{ width: "100%" }}
+                            >
+                                <InputNumber style={{ width: "100%" }} />
+                            </Form.Item>
+                        </div>
+                        <Form.Item
+                            label="Biyografi"
+                            name="biography"
+                            rules={[{ required: true, message: 'Lütfen bu alanı doldurun.' }]}
+                            style={{ width: "100%" }}
+                        >
+                            <ReactQuill style={{
+                                backgroundColor: "white"
+                            }} />
+                        </Form.Item>
+
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="flex flex-col gap-4 w-full">
+                                <Button className="w-full" type="primary" onClick={() => setOpenImage(true)} style={{ width: "100%" }}>Resim Seç</Button>
+                                {images != "" ?
+                                    <div style={{ width: "100%", display: "grid", gridTemplateColumns: "1fr", gap: "1rem" }}>
+                                        {images.split("\n").map((img, key) => (
+                                            img && <img src={apiURL + '/api/image/' + img} key={key} style={{ width: "100%" }} />
+                                        ))}
+                                    </div>
+                                    :
+                                    <h4>Resim seçilmemiş.</h4>
+                                }
+                            </div>
+                            <Button className="w-full" type="primary" htmlType="submit" style={{ width: "100%" }}>Kaydet</Button>
+                        </div>
                     </div>
-                </div>
-            </Form>
-        </Spin>
+                </Form>
+            </Spin>
         </AdminLayout>
     )
 }

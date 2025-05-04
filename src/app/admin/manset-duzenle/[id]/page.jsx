@@ -3,10 +3,12 @@ import { Button, Spin, Form, message, Input, InputNumber } from "antd";
 import { token, user } from "../../GetUserData";
 import { LoadingOutlined } from '@ant-design/icons';
 import { useRouter } from "next/navigation";
-import 'react-quill-new/dist/quill.snow.css';
 import { useEffect, useState } from "react";
-import {Image} from "../../Image/Image";
 import AdminLayout from "../../page";
+import dynamic from 'next/dynamic';
+
+const Image = dynamic(() => import('../../Image/Image'), { ssr: false });
+
 
 function UpdateCuff({ params }) {
     const [messageApi, contextHolder] = message.useMessage();
@@ -24,12 +26,6 @@ function UpdateCuff({ params }) {
         }
       }, [user]);
 
-    useEffect(() => {
-        const body = document.body;
-        if (openImage) { body.style.overflow = 'hidden'; }
-        else { body.style.overflow = 'auto'; }
-        return () => { body.style.overflow = 'auto'; };
-    }, [openImage]);
 
     const handleImageSelection = (images) => {
         setImages(images);

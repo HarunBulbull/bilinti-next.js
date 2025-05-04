@@ -5,6 +5,11 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AdminLayout from "../page";
+import 'react-quill-new/dist/quill.snow.css';
+
+import dynamic from 'next/dynamic';
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+
 
 function AddColumn() {
     const [messageApi, contextHolder] = message.useMessage();
@@ -66,6 +71,15 @@ function AddColumn() {
                         <Input />
                     </Form.Item>
 
+                    <Form.Item
+                        label="Link"
+                        name="columnLink"
+                        rules={[{ required: true, message: 'Lütfen bu alanı doldurun.' }]}
+                        style={{ width: "100%" }}
+                    >
+                        <Input />
+                    </Form.Item>
+
 
                     <Form.Item
                         label="İçerik"
@@ -73,7 +87,9 @@ function AddColumn() {
                         rules={[{ required: true, message: 'Lütfen bu alanı doldurun.' }]}
                         style={{ width: "100%" }}
                     >
-                        <Input.TextArea />
+                        <ReactQuill style={{
+                            backgroundColor: "white"
+                        }} />
                     </Form.Item>
 
 

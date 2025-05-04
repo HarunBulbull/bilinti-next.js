@@ -34,7 +34,9 @@ function Login() {
                     : "Kayıt işlemi başarıyla tamamlandı!"
                 );
                 if(section === "Giriş Yap"){
-                    localStorage.setItem("member", data.data._id);
+                    if (typeof window !== 'undefined') {
+                        localStorage.setItem("member", data.data._id);
+                    }
                     setTimeout(() => {
                         location.reload();
                     }, 1000);

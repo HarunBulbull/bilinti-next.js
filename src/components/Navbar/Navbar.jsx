@@ -93,8 +93,8 @@ function Navbar() {
                 <div className="container">
                     <div className="flex gap-8 w-full items-center">
                         <div className="flex gap-8 items-center w-full">
-                            <Link href='/' style={{minWidth: scrolled ? "94px" : "140px", transition: "ease .5s"}}>
-                                <img src="/bilinti-5.png" alt="bilinti-logo" className={scrolled ? "h-[60px] transition-all duration-500" : "h-[90px] transition-all duration-500"} />
+                            <Link href='/' className={scrolled ? "min-w-[50px] md:min-w-[94px]" : "min-w-[80px] md:min-w-[140px]"} style={{transition: "ease .5s"}}>
+                                <img src="/bilinti-5.png" alt="bilinti-logo" className={scrolled ? "md:h-[60px] h-[32px] transition-all duration-500" : "md:h-[90px] h-[52px] transition-all duration-500"} />
                             </Link>
                             <input type="text" className="outline-none border-b-1 w-full" placeholder="Haber Ara" value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => e.key === "Enter" && nav.push('/ara/' + search)} />
                         </div>
