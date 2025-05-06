@@ -5,6 +5,14 @@ import Link from 'next/link'
 import { Spin } from "antd"
 import moment from 'moment';
 
+const stripHtml = (html) => {
+    if (!html) return '';
+    const tmp = document.createElement('DIV');
+    tmp.innerHTML = html;
+    return tmp.textContent.substring(0,200) + '...' || tmp.innerText.substring(0,200) + '...' || '';
+  };
+  
+
 function Column() {
     const apiURL =  process.env.NEXT_PUBLIC_API_URL;;
     const [loading, setLoading] = useState(false);
@@ -31,14 +39,14 @@ function Column() {
             <Spin spinning={loading} tip="Yükleniyor..." indicator={<LoadingOutlined spin />} size="large">
                 <div className="bg-white w-full shadow-md flex flex-col rounded-md hover:shadow-lg transition duration-300 p-4">
                     {data ? 
-                    <>
+                    <Link href={`/kose-yazilari/${data?.columnLink}`} style={{color: "black"}}>
                         <b className="clamp-p">{data?.columnTitle}</b>
-                        <p className="clamp-p">{data?.columnContent}</p>
+                        <p className="clamp-p">{stripHtml(data?.columnContent)}</p>
                         <div className="flex justify-between mt-4">
                             <i style={{fontSize: "12px"}}>{data?.columnAuthor?.fullName}</i>
                             <i style={{fontSize: "12px"}}>{moment(data?.createdAt).format("DD.MM.YYYY")}</i>  
                         </div>
-                    </>
+                    </Link>
                     :
                     <p className='clamp-p'>Bugün için köşe yazısı henüz eklenmedi. :(</p>
                     }

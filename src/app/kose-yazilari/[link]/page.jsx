@@ -3,6 +3,22 @@ import ClientPage from './ClientPage';
 import { notFound } from 'next/navigation';
 import Footer from '@/components/Footer/Footer';
 
+function stripHtml(html) {
+  if (!html) return '';
+  // HTML etiketlerini kaldır
+  const plainText = html.replace(/<[^>]*>/g, '');
+  // HTML karakterlerini decode et
+  const decodedText = plainText
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+  // İlk 70 karakteri al
+  return decodedText.substring(0, 70);
+}
+
 async function fetchNewsData(link) {
   const apiURL = process.env.NEXT_PUBLIC_API_URL;
   
@@ -54,25 +70,29 @@ export async function generateMetadata({ params }) {
   }
     
   try {
-    function stripHtmlTags(html) {
-      if (!html) return '';
-      const tempElement = new DOMParser().parseFromString(html, 'text/html');
-      return tempElement.body.textContent || '';
-    }
-    const cleanDescription = stripHtmlTags(data?.data?.columnContent.subsstirng(0,60));
-
     return {
       title: `${data?.data?.columnTitle} | Bilinti`,
-      description: cleanDescription || 'Bilinti Haber ile gündemi yakalayın!',
-      authors: [{ name: data?.data?.columnAuthor?.fullName || 'Bilinti' }],
+      description: stripHtml(data?.data?.columnContent) || 'Bilinti Haber ile gündemi yakalayın!',
+      authors: [{ name: data?.data?.columnAuthor.fullName || 'Bilinti' }],
       alternates: {
         canonical: `https://www.bilintihaber.com/kose-yazilari/${data?.data?.columnLink}`
       },
+      openGraph: {
+        title: `${data?.data?.columnTitle} | Bilinti`,
+        description: stripHtml(data?.data?.columnContent) || 'Bilinti Haber ile gündemi yakalayın!',
+        canonical: `https://www.bilintihaber.com/kose-yazilari/${data?.data?.columnLink}`,
+        type: 'article',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${data?.data?.columnTitle} | Bilinti`,
+        description: stripHtml(data?.data?.columnContent) || 'Bilinti Haber ile gündemi yakalayın!',
+      }
     };
   } catch (error) {
     console.error('Metadata oluşturulurken hata:', error);
     return {
-      title: 'Köşe Yazısı | Bilinti',
+      title: 'Köşe Yazıları | Bilinti',
       description: 'Bilinti Haber ile gündemi yakalayın!'
     };
   }

@@ -2,8 +2,15 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { HomeOutlined } from '@ant-design/icons';
 import { Breadcrumb } from "antd";
+import Link from "next/link";
 import moment from "moment";
 
+const stripHtml = (html) => {
+  if (!html) return '';
+  const tmp = document.createElement('DIV');
+  tmp.innerHTML = html;
+  return tmp.textContent.substring(0,200) + '...' || tmp.innerText.substring(0,200) + '...' || '';
+};
 
 function Columns() {
 const apiURL = process.env.NEXT_PUBLIC_API_URL;
@@ -79,7 +86,8 @@ const apiURL = process.env.NEXT_PUBLIC_API_URL;
             />
           {data.length > 0 ? (
             data.map((item, index) => (
-              <div 
+              <Link 
+              href={`/kose-yazilari/${item.columnLink}`}
                 key={item.id || index} 
                 ref={index === data.length - 1 ? lastElementRef : null}
                 style={{backgroundColor: "white"}}
@@ -88,12 +96,12 @@ const apiURL = process.env.NEXT_PUBLIC_API_URL;
               >
                 
                 <h5 className="clamp-h5 font-semibold">{item.columnTitle}</h5>
-                <p className="clamp-p">{item.columnContent}</p>
+                <p className="clamp-p">{stripHtml(item.columnContent)}</p>
                 <div className="flex items-end flex-col sm:flex-row sm:justify-between mt-4">
                   <i className="clamp-p">{item.columnAuthor.fullName}</i>
                   <i className="clamp-p">{moment(item.createdAt).format("DD.MM.YYYY H:mm")}</i>
                 </div>
-              </div>
+              </Link>
             ))
           ) : (!loading &&
             <p>Henüz içerik yok</p>
