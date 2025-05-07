@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import { Button, Layout, Menu, Spin } from "antd";
 import { useState, useEffect } from "react";
-import { Helmet } from "react-helmet";
+import Head from 'next/head';
 import {
   Person,
   List,
@@ -395,9 +395,9 @@ function AdminLayout({ children }) {
   return (
     user ?
       <div className="admin-layout">
-        <Helmet>
+        <Head>
           <title>Admin Panel</title>
-        </Helmet>
+        </Head>
         <Layout>
           <Sider width={"300px"} trigger={null} theme="light " collapsible collapsed={collapsed}>
             <img src="/bilinti-5.png" style={{ width: collapsed ? "50%" : "25%", position: "relative", left: "50%", transform: "translateX(-50%)", padding: "1rem 0", transition: "ease .3s" }} />

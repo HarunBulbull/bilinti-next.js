@@ -8,9 +8,10 @@ import dynamic from 'next/dynamic';
 import { token, user } from "../../GetUserData";
 import AdminLayout from "../../page";
 import moment from "moment/moment";
+import { Image } from "../../Image/Image";
+
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
-const Image = dynamic(() => import('../../Image/Image'), { ssr: false });
 
 
 function Page({ params }) {

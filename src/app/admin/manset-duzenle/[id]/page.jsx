@@ -5,9 +5,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AdminLayout from "../../page";
-import dynamic from 'next/dynamic';
-
-const Image = dynamic(() => import('../../Image/Image'), { ssr: false });
+import { Image } from "../../Image/Image";
 
 
 function UpdateCuff({ params }) {

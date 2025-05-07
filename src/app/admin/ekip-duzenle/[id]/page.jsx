@@ -7,9 +7,9 @@ import 'react-quill-new/dist/quill.snow.css';
 import { useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
 import AdminLayout from "../../page";
+import { Image } from "../../Image/Image";
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
-const Image = dynamic(() => import('../../Image/Image'), { ssr: false });
 
 
 function UpdateTeam({ params }) {
